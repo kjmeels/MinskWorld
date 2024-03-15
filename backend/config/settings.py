@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     # apps
     "users.apps.UserConfig",
     "main_page.apps.MainPageConfig",
+    "projects.apps.ProjectsConfig",
+    "metro.apps.MetroConfig",
     # packages
     "rest_framework",
     "drf_spectacular",
@@ -33,6 +35,7 @@ INSTALLED_APPS = [
     "solo",
     "ckeditor",
     "adminsortable2",
+    "colorful",
 ]
 
 REST_FRAMEWORK = {
