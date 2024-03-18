@@ -1,0 +1,3 @@
+from .apartment_selection_serializer import ApartmentSelectionSerializer
+from .rules_serializer import RulesSlideSerializer, RulesBlockSerializer, RulesSlideShortSerializer
+from .top_slide_serializer import MainPageTopSlideSerializer

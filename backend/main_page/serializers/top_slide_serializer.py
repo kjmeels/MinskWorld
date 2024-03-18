@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from main_page.models import MainPageTopSlide
+from ..models import MainPageTopSlide
 
 
 class MainPageTopSlideSerializer(serializers.ModelSerializer):

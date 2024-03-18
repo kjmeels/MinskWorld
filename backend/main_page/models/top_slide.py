@@ -13,7 +13,7 @@ class MainPageTopSlide(models.Model):
 
     class Meta:
         verbose_name: str = "Верхний слайд"
-        verbose_name_plural = "Верхние слайды"
+        verbose_name_plural: str = "Верхние слайды"
         ordering = ("order",)
 
     def __str__(self):
