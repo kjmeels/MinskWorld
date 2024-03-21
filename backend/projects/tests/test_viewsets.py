@@ -6,7 +6,11 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from metro.tests.factories import MetroLineFactory, MetroStationFactory
-from projects.tests.factories import ProjectFactory
+from projects.tests.factories import (
+    ProjectFactory,
+    ProjectAdvantagesBlockFactory,
+    ProjectAdvantageFactory,
+)
 from properties.constants import RoomsCountChoices, StatusChoices
 from properties.tests.factories import BuildingFactory, ApartmentFactory
 
@@ -16,6 +20,9 @@ class TestProjectViewSet(APITestCase):
     def setUp(self):
         self.list_url: str = reverse("projects-list")
         self.detail_url = partial(reverse, "projects-detail")
+        self.get_project_advantages_block_url: str = reverse(
+            "projects-get-project-advantages-block"
+        )
 
     def test_list(self):
         metro_lines = [MetroLineFactory() for _ in range(2)]
@@ -69,3 +76,21 @@ class TestProjectViewSet(APITestCase):
             res_json_building["count_free_apartments"],
             len(apartments) / len(StatusChoices.values) / len(buildings),
         )
+
+    def test_get_project_advantages_block(self):
+        projects = [ProjectFactory() for _ in range(2)]
+        block = ProjectAdvantagesBlockFactory()
+        advantages = [
+            ProjectAdvantageFactory(advantages_block=block, project=project)
+            for project in projects
+            for _ in range(3)
+        ]
+
+        with self.assertNumQueries(2):
+            res = self.client.get(
+                self.get_project_advantages_block_url, data={"project_id": projects[0].id}
+            )
+
+        res_json = res.json()
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res_json["project_advantages"]), len(advantages) / len(projects))

@@ -1,11 +1,19 @@
 from django.db.models import Prefetch
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from properties.models import Building
-from .models import Project
-from .serializers import ProjectSerializer, ProjectDetailSerializer
+from .models import Project, ProjectAdvantagesBlock, ProjectAdvantage
+from .serializers import (
+    ProjectSerializer,
+    ProjectDetailSerializer,
+    ProjectAdvantagesBlockSerializer,
+)
 
 
 @extend_schema(tags=["Projects"])
@@ -17,6 +25,8 @@ class ProjectViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
             return ProjectSerializer
         if self.action == "retrieve":
             return ProjectDetailSerializer
+        if self.action == "get_project_advantages_block":
+            return ProjectAdvantagesBlockSerializer
 
     def get_queryset(self):
         if self.action == "list":
@@ -41,3 +51,23 @@ class ProjectViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
                     )
                 )
             )
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="project_id", description="Id проекта", required=True, type=OpenApiTypes.INT
+            )
+        ]
+    )
+    @action(detail=False, methods=["GET"])
+    def get_project_advantages_block(self, request, *args, **kwargs):
+        project_advantages = ProjectAdvantage.objects.filter(
+            project_id=request.query_params.get("project_id")
+        )
+        queryset = (
+            ProjectAdvantagesBlock.objects.all()
+            .prefetch_related(Prefetch("project_advantages", queryset=project_advantages))
+            .first()
+        )
+        serializer = self.get_serializer(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)

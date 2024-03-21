@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from metro.serializers import MetroStationSerializer
 from properties.serializers import BuildingSerializer
-from .models import Project
+from ..models import Project
 
 
 class ProjectSerializer(serializers.ModelSerializer):
