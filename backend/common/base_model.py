@@ -8,3 +8,4 @@ class AbsOrder(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ("order",)

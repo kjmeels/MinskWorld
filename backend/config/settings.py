@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "main_page.apps.MainPageConfig",
     "projects.apps.ProjectsConfig",
     "metro.apps.MetroConfig",
+    "properties.apps.PropertiesConfig",
     # packages
     "rest_framework",
     "drf_spectacular",
