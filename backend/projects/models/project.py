@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from .constains import ProjectChoices
+from ..constains import ProjectChoices
 
 
 class Project(models.Model):
