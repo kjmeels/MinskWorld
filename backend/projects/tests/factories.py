@@ -3,7 +3,7 @@ from factory.django import DjangoModelFactory
 import factory
 
 from metro.tests.factories import MetroStationFactory
-from projects.constains import ProjectChoices
+from projects.constants import ProjectChoices
 from projects.models import Project, ProjectAdvantagesBlock, ProjectAdvantage
 
 

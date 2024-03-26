@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "projects.apps.ProjectsConfig",
     "metro.apps.MetroConfig",
     "properties.apps.PropertiesConfig",
+    "mortgage.apps.MortgageConfig",
     # packages
     "rest_framework",
     "drf_spectacular",
