@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main_page', '0005_alter_rulesslide_options'),
+        ("main_page", "0005_alter_rulesslide_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mainpagetopslide',
-            name='order',
-            field=models.PositiveSmallIntegerField(default=0, verbose_name='Подряд'),
+            model_name="mainpagetopslide",
+            name="order",
+            field=models.PositiveSmallIntegerField(default=0, verbose_name="Подряд"),
         ),
     ]
