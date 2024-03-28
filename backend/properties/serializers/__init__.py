@@ -1,2 +1,3 @@
 from .building_serializer import BuildingSerializer
 from .apartment_serializer import ApartmentSerializer
+from .apartment_detail_serializer import ApartmentDetailSerializer
