@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import UniqueConstraint
 
 from ..constants import RoomsCountChoices, StatusChoices
+from ..querysets import ApartmentQuerySet
 
 
 class Apartment(models.Model):
@@ -41,7 +42,7 @@ class Apartment(models.Model):
         verbose_name="Скидка", default=0, validators=[MinValueValidator(0), MaxValueValidator(99)]
     )
     price_per_meter = models.DecimalField(
-        decimal_places=2, max_digits=10, verbose_name="Цена за квадратный метр"
+        decimal_places=2, max_digits=10, verbose_name="Цена за квадратный метр", null=True
     )
     area = models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Площадь")
     class_name = models.CharField(verbose_name="Класс", max_length=50)
@@ -58,6 +59,8 @@ class Apartment(models.Model):
         default=StatusChoices.FREE,
     )
 
+    objects = ApartmentQuerySet.as_manager()
+
     class Meta:
         verbose_name = "Квартира"
         verbose_name_plural = "Квартиры"
@@ -67,9 +70,13 @@ class Apartment(models.Model):
 
     def save(self, *args, **kwargs):
         if self.price and self.area:
-            self.price_per_meter = self.price / self.area
+            self.price_per_meter = round(self.price / self.area, 2)
+        else:
+            self.price_per_meter = None
         if self.price and self.original_price:
             self.discount = (self.original_price - self.price) / self.original_price * 100
+        else:
+            self.discount = 0
         super().save()
 
     def __str__(self):
