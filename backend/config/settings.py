@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "properties.apps.PropertiesConfig",
     "mortgage.apps.MortgageConfig",
     "about_company.apps.AboutCompanyConfig",
+    "likes.apps.LikesConfig",
     # packages
     "rest_framework",
     "drf_spectacular",
