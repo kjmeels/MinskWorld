@@ -1,0 +1,3 @@
+from .admin_about_company import AboutCompanyAdmin
+from .admin_about_company_card import AboutCompanyCardAdmin
+from .admin_about_company_team_slide import AboutCompanyTeamSlideAdmin
